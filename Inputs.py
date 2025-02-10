@@ -1,4 +1,4 @@
-print ("Quero fude")
+print ("Who are you?")
 
 name = input("type your name")
 age = int(input("type your age"))
