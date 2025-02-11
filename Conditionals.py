@@ -16,7 +16,7 @@ elif salary > 6000 and salary <= 15000:
 else:
     print ("project manager")
 
-cash = float(input("how much cash do you have onto your bank account? "))
+cash = float(input("how much cash do you have in your bank account? "))
 
 if cash <= 100:
     print(" :'( )")
