@@ -18,8 +18,10 @@ while True:
 
 weight = float(input("type your weigth: "))
 
+'''
 print (type(name))
 print (type(age))
 print (type(weight))
+'''
 
 print (name, "is",age, "years old","and", pron, "weight","is:", weight)

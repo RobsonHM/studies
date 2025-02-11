@@ -1,7 +1,8 @@
-#print ("\"I'm\"\n\"\"Learning\"\"\n\"\"\"Python\"\"\"")
-#print ('"I\'m"\n""learning""\n"""python"""')
-#print ('"I\'m"','""Learning""','"""python"""', sep="\n")
-
+'''
+print ("\"I'm\"\n\"\"Learning\"\"\n\"\"\"Python\"\"\"")
+print ('"I\'m"\n""learning""\n"""python"""')
+print ('"I\'m"','""Learning""','"""python"""', sep="\n")
+'''
 # If one number is float the result will be float
 
 print (2 ** 3) #Exponention(oower)
