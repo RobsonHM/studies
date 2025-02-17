@@ -9,9 +9,9 @@ salary = float(input("inform yopur salary: "))
 
 if salary <= 3000:
     print ("junior")
-elif salary > 3000 and salary <= 6000:
+elif salary > 3000 and salary <= 5000:
     print ("Senior")
-elif salary > 6000 and salary <= 15000:
+elif salary > 5000 and salary <= 15000:
     print ("pleno17")
 else:
     print ("project manager")
