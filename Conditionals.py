@@ -12,7 +12,7 @@ if salary <= 3000:
 elif salary > 3000 and salary <= 5000:
     print ("Senior")
 elif salary > 5000 and salary <= 15000:
-    print ("pleno17")
+    print ("pleno")
 else:
     print ("project manager")
 
