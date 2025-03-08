@@ -1,4 +1,7 @@
+'''from Function import addiction
+print(addiction(2,5))
 # for loop
+'''
 
 scores = []
 
