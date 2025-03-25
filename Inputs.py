@@ -1,5 +1,5 @@
 print ("Who are you?")
-
+varbool = input("Would you like to add any book else? Y/N ").lower().strip() == 'y'
 name = input("type your name: ")
 age = int(input(f"How old are you {name}? "))
 print("what's your gender? [1] Male or [2] Female")
