@@ -38,3 +38,34 @@ while totalcart >= 0 :
           else:
              print("Thank you for the purchased")
              break
+
+# Second way to do it using dict to set value and name
+# In this case it's possible setting values and names different for each item
+
+books = {}
+bookname = ""
+MoreBooks = True 
+AddMore = True
+val = 0.
+
+
+while AddMore == True:
+
+    if MoreBooks == True:
+        bookname = input("What book do you wanna buy? ")
+        books[bookname] = float(input("How much is it? "))
+        MoreBooks = input("Would you like to add more books?").lower().strip() == "y"
+        
+    else:
+        val = sum(books.values())
+        discaunt = val * 15 / 100
+        total = val - discaunt
+        for bookss, prices in books.items():
+          print(f"{bookss} : {prices}")
+        print("The total is:",len(books), "books for ",val,", You have earned: 15% bulk discount: So the final value is: ",total)
+        MoreBooks = (input("Any books else? ")).lower().strip() == "y"
+        if MoreBooks == True:
+            AddMore = True
+        else:
+            AddMore = False
+            print("Thank you for the purchased")

@@ -1,4 +1,5 @@
 #dict is an ordered and mutable collection. does not allow duplicate members
+val = 0
 dictionary = {"book1": 5,
               "book2": 10, 
               "book3": 30}
@@ -15,7 +16,8 @@ for books in dictionary:
 print("-"*30)
 
 for books in dictionary:
-    val = dictionary[books]
+    vale = dictionary[books]
+    val += vale
     print(val)
 
 print("-"*30)
