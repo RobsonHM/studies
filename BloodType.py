@@ -1,6 +1,4 @@
-# Robson Henrique Miranda - ID 76776
-# 76776@student.dorset-college.ie
-
+#Veriable type dict to save all values of blood type
 tblood  = {
     "A+": {"gives": ["A+", "AB+"], "receives": ["A+", "A-", "O+", "O-"]},
     "O+": {"gives": ["O+", "A+", "B+", "AB+"], "receives": ["O+", "O-"]},
@@ -11,17 +9,21 @@ tblood  = {
     "B-": {"gives": ["B+", "B-", "AB+", "AB-"], "receives": ["B-", "O-"]},
     "AB-": {"gives": ["AB+", "AB-"], "receives": ["AB-", "A-", "B-", "O-"]},
 }
-print ("Welcome to the Blood Type Compatibility Checker!\n")
-print("Choose an option: \n 1. Check who can donate to your blood type. \n 2. Check who you can donate blood to. \n 3. Exit the program.\n")
+print("\nWelcome to the Blood Type Compatibility Checker!")
+print("-"*60)
 
+#variable to keep the while working till the user choose the option 3 that makes it setting the variable as False and stop it
 continues = True
 
 while continues == True:
 
+    print("Choose an option: \n 1. Check who can donate to your blood type. \n 2. Check who you can donate blood to. \n 3. Exit the program.\n")
     option = int(input("Enter your choice (1/2/3): " ))
 
+#if to know what option you want to, 1-receive, 2-donate or 3-exit
     if option in [1,2,3] :
 
+# "ifs" to check if the blood type is valid and to know what type blood is compatible
         if option == 1:
             Myblood = input("Enter your blood type (e.g., A+, O-, AB+): ").strip().upper()
             if Myblood in tblood:
@@ -37,7 +39,7 @@ while continues == True:
                 print(f"Invalid blood type: {Myblood}. Please try again.\n")
 
         else:
-            print("Thank you for using the Blood Type Compatibility Checker. Goodbye!")
+            print("Thank you for using the Blood Type Compatibility Checker. \nGoodbye!")
             continues = False
             break
     else:

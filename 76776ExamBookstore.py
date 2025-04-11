@@ -54,7 +54,7 @@ while AddMore == True:
     if MoreBooks == True:
         bookname = input("What book do you wanna buy? ")
         books[bookname] = float(input("How much is it? "))
-        MoreBooks = input("Would you like to add more books?").lower().strip() == "y"
+        MoreBooks = input("Would you like to add more books? Y/N").lower().strip() == "y"
         
     else:
         val = sum(books.values())
@@ -63,7 +63,7 @@ while AddMore == True:
         for bookss, prices in books.items():
           print(f"{bookss} : {prices}")
         print("The total is:",len(books), "books for ",val,", You have earned: 15% bulk discount: So the final value is: ",total)
-        MoreBooks = (input("Any books else? ")).lower().strip() == "y"
+        MoreBooks = (input("Any books else? Y/N ")).lower().strip() == "y"
         if MoreBooks == True:
             AddMore = True
         else:
