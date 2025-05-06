@@ -1,3 +1,4 @@
+import time
 #Veriable type dict to save all values of blood type
 tblood  = {
     "A+": {"gives": ["A+", "AB+"], "receives": ["A+", "A-", "O+", "O-"]},
@@ -16,7 +17,8 @@ print("-"*60)
 continues = True
 
 while continues == True:
-
+     # 3 seconds of delay to give enough time to read it  
+    time.sleep(3)
     print("Choose an option: \n 1. Check who can donate to your blood type. \n 2. Check who you can donate blood to. \n 3. Exit the program.\n")
     option = int(input("Enter your choice (1/2/3): " ))
 
@@ -27,7 +29,7 @@ while continues == True:
         if option == 1:
             Myblood = input("Enter your blood type (e.g., A+, O-, AB+): ").strip().upper()
             if Myblood in tblood:
-                print(f"Blood Type {Myblood} can receive donations from: {", ".join(tblood[Myblood]['receives'])}\n")
+                print(f"Blood Type {Myblood} can receive donations from: {", ".join(tblood[Myblood]["receives"])}\n")
             else:
                 print(f"Invalid blood type: {Myblood}. Please try again.\n")
 
