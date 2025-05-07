@@ -5,3 +5,6 @@ def addiction (sum1: int,sum2:int) -> int:
 
 def concatenation (name,surname):
     return name + " " + surname
+
+def subMult(x: float, y: float):
+    return x * y

@@ -20,3 +20,4 @@ print (type(c))
 c = int(2)
 print(c)
 print(type(c))
+
