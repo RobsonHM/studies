@@ -1,9 +1,14 @@
-import customtkinter as ctk
 from datetime import datetime
 import math
 import re
 
 allstudents = []
+
+def save_students(file_name, content):
+    with open(file_name, "w", encoding="utf-8") as students_save:
+        for item in content:
+            students_save.write(f"{item.get_details()}\n---\n")
+        print("file saved")
 
 def is_valid_date(date_str):
     try:
@@ -22,7 +27,7 @@ def is_valid_Email(email_str):
     return bool (re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email_str))
 
 def is_valid_phone_number(phone_str):
-    return bool (re.match(r'^[0-9]{3,}+-[0-9]{3,}+-[0-9]{4,}$',phone_str))
+    return bool (re.match(r'^\d{3}-\d{3}-\d{4}$',phone_str))
         
 class student():
     def __init__(self,name, age, birth, id, email, phone):
@@ -35,7 +40,7 @@ class student():
 
     def get_details(self):
         return f"Name: {self.name}\nAge: {self.age}\nBirth: {self.birth}\nID: {self.id}\nEmail: {self.email}\nPhone: {self.phone}"
-    
+
 while True:
     # check if the name is only letters
     name = input("Enter name: ")
@@ -80,35 +85,47 @@ while True:
         break
 
 AnyStudent = input("Would you like to choose a specific student? Y/N: ")
+print("-"*60)
+student_id = ""
 
 while True:
-
     if AnyStudent.lower() == "y":
         student_id = input("Enter ID: ")
-    while not is_valid_id(student_id):
-        print("Max 5 numbers")
-        student_id = input("Enter ID: ")
-        found = False
-        for student in allstudents:
-            if student.id == student_id:
-                print("\nStudent found:")
-                print(student.get_details())
-                found = True
-                AnyStudent = input("\nwould you like to find someone else? Y/N: ")
-                if AnyStudent.lower() == "y":
-                    student_id = input("Enter ID: ")
-                    while not is_valid_id(student_id):
-                        print("Max 5 numbers")
-                        student_id = input("Enter ID: ")        
+        while not is_valid_id(student_id):
+            print("Max 5 numbers")
+            student_id = input("Enter ID: ")
+            found = False
+            for student in allstudents:
+                if student.id == student_id:
+                    print("\nStudent found:")
+                    print(student.get_details())
+                    found = True
+                    AnyStudent = input("\nwould you like to find someone else? Y/N: ")
+                    if AnyStudent.lower() == "y":
+                        student_id = input("Enter ID: ")
+                        while not is_valid_id(student_id):
+                            print("Max 5 numbers")
+                            student_id = input("Enter ID: ")        
 
         if not found:
             print("No student found with that ID.")
     else:
-        AnyStudent = input("would you like to see a list of all students? Y/N:")
+        AnyStudent = input("would you like to see a list of all students? Y/N: ")
+        print("-"*60)
         if AnyStudent == "y":
             print("\nAll students:\n")
             for student in allstudents:
                 print(student.get_details())
+            save_all = input("Would you like saving the list? Y/N: ").strip().lower()
+            if save_all == "y":
+               save_file = input("Name the file: ").replace(" ","").strip().lower()
+               save_file = save_file+".txt"
+            save_students(save_file, allstudents)
             break
         else:
+            save_all = input("Would you like saving the list? Y/N: ").strip().lower()
+            if save_all == "y":
+               save_file = input("Name the file: ").replace(" ","").strip().lower()
+               save_file = save_file+".txt"
+            save_students(save_file, allstudents)
             break 
