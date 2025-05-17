@@ -21,13 +21,13 @@ def is_valid_name(name_str):
     return bool(re.match(r'^[a-zA-Z ]+$', name_str))
 
 def is_valid_id(id_str):
-    return bool(re.match(r'^[0-9]{1,5}$', id_str))
+    return bool(re.match(r'^[0-9]{1,6}$', id_str))
 
 def is_valid_Email(email_str):
     return bool (re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email_str))
 
 def is_valid_phone_number(phone_str):
-    return bool (re.match(r'^\d{3}-\d{3}-\d{4}$',phone_str))
+    return bool (re.match(r'^\d{10}$',phone_str))
         
 class student():
     def __init__(self,name, age, birth, id, email, phone):
@@ -53,16 +53,20 @@ while True:
     while not is_valid_date(birth):
         print("Invalid date format or values. Please try again.")
         birth = input("Enter birth date (DD/MM/YYYY): ")
-    today = datetime.now()
     yearbith = datetime.strptime(birth, "%d/%m/%Y")
-    age = (today - yearbith).days
-    age = math.floor((age/365.25))
+    age = math.floor((datetime.now() - yearbith).days /365.25)
 
     #check if the ID is valid
-    id = input("Enter ID: ")
-    while not is_valid_id(id):
-        print("Max 5 numbers")
+    existing_ids = {student.id for student in allstudents}
+    while True:
         id = input("Enter ID: ")
+        if not is_valid_id(id):
+            print("Max 6 numbers")
+            continue
+        if id in existing_ids:
+            print("ID already exists.")
+            continue
+        break
 
     # Check if the email is valid
     email = input("Enter the email: ")
@@ -116,16 +120,17 @@ while True:
             print("\nAll students:\n")
             for student in allstudents:
                 print(student.get_details())
-            save_all = input("Would you like saving the list? Y/N: ").strip().lower()
+            save_all = input("Would you like to save the list? Y/N: ").strip().lower()
             if save_all == "y":
                save_file = input("Name the file: ").replace(" ","").strip().lower()
                save_file = save_file+".txt"
-            save_students(save_file, allstudents)
-            break
+               save_students(save_file, allstudents)
+               break
         else:
-            save_all = input("Would you like saving the list? Y/N: ").strip().lower()
+            save_all = input("Would you like to save the list? Y/N: ").strip().lower()
             if save_all == "y":
                save_file = input("Name the file: ").replace(" ","").strip().lower()
                save_file = save_file+".txt"
-            save_students(save_file, allstudents)
-            break 
+               save_students(save_file, allstudents)
+               break 
+        break
