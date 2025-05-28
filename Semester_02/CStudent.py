@@ -18,7 +18,7 @@ def is_valid_date(date_str):
         return False
 
 def is_valid_name(name_str):
-    return bool(re.match(r'^[a-zA-Z ]+$', name_str))
+    return bool(re.match(r'^[a-zA-Z ]{2,50}+$', name_str))
 
 def is_valid_id(id_str):
     return bool(re.match(r'^[0-9]{1,6}$', id_str))
@@ -123,7 +123,7 @@ while True:
             save_all = input("Would you like to save the list? Y/N: ").strip().lower()
             if save_all == "y":
                save_file = input("Name the file: ").replace(" ","").strip().lower()
-               save_file = save_file+".txt"
+               save_file = save_file + ".txt"
                save_students(save_file, allstudents)
                break
         else:
