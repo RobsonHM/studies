@@ -1,0 +1,8 @@
+
+Game: Resident Evil Requiem
+Year: 2026
+Genre: Suvivor-Horror
+Publisher: Capcom
+Price: 250
+
+---
