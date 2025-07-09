@@ -39,7 +39,7 @@ class student():
         self.phone = phone
 
     def get_details(self):
-        return f"Name: {self.name}\nAge: {self.age}\nBirth: {self.birth}\nID: {self.id}\nEmail: {self.email}\nPhone: {self.phone}"
+        return f"Name: {self.name}\nAge: {self.age}\nBirth: {self.birth}\nID: {self.id}\nEmail: {self.email}\nPhone: {self.phone}\n"
 
 while True:
     # check if the name is only letters
