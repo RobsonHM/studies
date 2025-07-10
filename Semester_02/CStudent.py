@@ -134,3 +134,31 @@ while True:
                save_students(save_file, allstudents)
                break 
         break
+
+
+"""
+    all_bikes = [
+    bikes(1, "CityRide 300",   "urban",    True,3),
+    bikes(2, "EcoSprint X",    "electric", False,2),
+    bikes(3, "MTB Storm 500",  "mountain", True,1),
+    bikes(4, "UrbanLite",      "urban",    True,4),
+    bikes(5, "TrailBlazer 4",  "mountain", False,3),
+    bikes(6, "VoltCity Pro",   "electric", True,2),
+    bikes(7, "Speedster 700",  "road",     True,1),
+    bikes(8, "CargoMax Duo",   "cargo",    False,2),
+    bikes(9, "FlexFold Mini",  "folding",  True,4),
+    bikes(10, "Gravel X One",   "gravel",   True,5)
+]
+
+all_bikes_rent = [
+    rental("Alice", 1, dt.datetime(2025, 7, 1, 9, 0), dt.datetime(2025, 7, 29, 9, 0)),
+    rental("Bob", 2, dt.datetime(2025, 7, 2, 10, 30), dt.datetime(2025, 7, 6, 10, 30)),
+    rental("Carla", 3, dt.datetime(2025, 7, 3, 14, 15), dt.datetime(2025, 7, 8, 14, 15)),
+    rental("Diego", 4, dt.datetime(2025, 7, 4, 8, 45), dt.datetime(2025, 7, 10, 8, 45)),
+    rental("Eva", 5, dt.datetime(2025, 7, 5, 13, 0), dt.datetime(2025, 7, 12, 13, 0)),
+    rental("Felipe", 6, dt.datetime(2025, 7, 6, 9, 30), dt.datetime(2025, 7, 15, 9, 30)),
+    rental("Giovana", 7, dt.datetime(2025, 7, 7, 11, 0), dt.datetime(2025, 7, 14, 11, 0)),
+    rental("Hugo", 8, dt.datetime(2025, 7, 8, 16, 20), dt.datetime(2025, 7, 13, 16, 20)),
+    rental("Isabela", 9, dt.datetime(2025, 7, 9, 10, 0), dt.datetime(2025, 7, 16, 10, 0)),
+    rental("João", 10, dt.datetime(2025, 7, 10, 15, 30), dt.datetime(2025, 7, 17, 15, 30)),
+]"""
