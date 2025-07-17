@@ -3,70 +3,70 @@
         "bike_id": 1,
         "model": "CityRide 300",
         "type": "urban",
-        "available": true,
+        "available": "Yes",
         "price": 3
     },
     {
         "bike_id": 2,
         "model": "EcoSprint X",
         "type": "electric",
-        "available": false,
+        "available": "No",
         "price": 2
     },
     {
         "bike_id": 3,
         "model": "MTB Storm 500",
         "type": "mountain",
-        "available": true,
+        "available": "Yes",
         "price": 1
     },
     {
         "bike_id": 4,
         "model": "UrbanLite",
         "type": "urban",
-        "available": true,
+        "available":"Yes",
         "price": 4
     },
     {
         "bike_id": 5,
         "model": "TrailBlazer 4",
         "type": "mountain",
-        "available": false,
+        "available": "No",
         "price": 3
     },
     {
         "bike_id": 6,
         "model": "VoltCity Pro",
         "type": "electric",
-        "available": true,
+        "available":"Yes",
         "price": 2
     },
     {
         "bike_id": 7,
         "model": "Speedster 700",
         "type": "road",
-        "available": true,
+        "available": "Yes",
         "price": 1
     },
     {
         "bike_id": 8,
         "model": "CargoMax Duo",
         "type": "cargo",
-        "available": false,
+        "available": "No",
         "price": 2
     },
     {
         "bike_id": 9,
         "model": "FlexFold Mini",
         "type": "folding",
-        "available": true,
+        "available":"Yes",
         "price": 4
     },
     {
         "bike_id": 10,
         "model": "Gravel X One",
         "type": "gravel",
-        "available": true,
+        "available":"Yes",
         "price": 5
     }
 ]
