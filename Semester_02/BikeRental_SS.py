@@ -7,8 +7,8 @@ import random
 import json
 from pathlib import Path
 
-"""two classes, one to add bikes and information about it, and another one for who rent it, class bikes you can add and update it
-class rental just add information about who rent, you cannot update it, it will always add a new customer everytime someone rent a bike."""
+"""There will be two classes: one for managing bikes (adding and updating bike information), and another for handling rentals. 
+The rental class will only record new customer information for each rental transaction, without the ability to update existing rental records."""
 
 class bikes:
 
@@ -23,7 +23,7 @@ class bikes:
         return [self.bike_id, self.model, self.type, self.available,  f"€{self.price:.2f}"]
 
    def get_details(self):
-      data = [[self.bike_id, self.model, self.type, self.available, self.price]]
+      data = [[self.bike_id, self.model, self.type, self.available, f"€{self.price:.2f}"]]
       headers = ["ID", "Model", "Type", "Available", "Daily Price"]
       return tb(data, headers=headers, tablefmt="grid")
       
@@ -66,6 +66,14 @@ def is_valid_model(model):
 def is_valid_type(type_srt):
     return bool(re.match(r'[a-zA-Z0-9\- ]', type_srt))
 
+"""def is_valid_type(type_srt="what is the type? "):
+      while True:
+         bikes_type = input(type_srt)
+         if not bool(re.match(r'[a-zA-Z0-9\- ]', bikes_type)):
+             print("type a valid type: ")
+             continue         
+         return bikes_type"""
+
 def is_valid_rent(rent_srt):
     return bool(rent_srt)
 
@@ -75,12 +83,33 @@ def is_available(available_srt):
     elif available_srt.lower() in ["no","n"]:
         return "No"
     else:
-         return print("\033[31m Invalid option, Type Yes or No.\033[0m")
+         return print("\033[31mInvalid option, Type Yes or No.\033[0m")
+    
+def is_valid_option(prompt_srt="Choose an option (1-7): "):
+    while True:
+        value = input(prompt_srt)
+        if not value.isdigit():
+            print("\033[31mInvalid input. Please enter a number.\033[0m")
+            continue 
+        int_value = int(value)
+        if int_value not in range(1, 8):
+            print("\033[31mInvalid option. Choose a number between 1 and 7.\033[0m")
+            continue
+        return int_value
+
+def is_valid_int(int_srt=""):
+    while True:
+        value_int = input(int_srt)
+        if not value_int.isdigit():
+            print("\033[31mInvalid input. Please enter a number.\033[0m")
+            continue 
+        return int(value_int)
+
 
 def rent_days(days_srt):
    start_time = dt.datetime.now()
    end_time = start_time + dt.timedelta(days=days_srt)
-   print ("\033[31mYou have to return it on\033[0m",end_time.strftime("%Y-%m-%d %H:%M:%S"),"\n")
+   print ("\033[31mYou have to return it on\033[0m",end_time.strftime("%Y-%m-%d %H:%M:%S"))
    return start_time, end_time
 
 def is_bike_save(file_name_srt, content_srt):
@@ -111,9 +140,10 @@ def load_rental(filename_srt):
 def check_file(*nomes):
     return all(Path(nome).is_file() for nome in nomes)
 
-'''when you save the file, you should type for example "mybikes" it will automatic save as bikes_mybikes.json
-so when you wanna load the file, just type mybikes again because the sufix (bikes_) and prefix(.json) will be to add automatic
-and if you wanna update a file, just save it with the same name'''
+'''When you save a file, you only need to type a name like "mybikes." The system will automatically add the "bikes_" prefix and the ".json" suffix, 
+so the file will be saved as bikes_mybikes.json. To load the file later, simply type "mybikes" again. 
+The system will automatically include the necessary prefix and suffix to find your file.
+If you want to update an existing file, just save it using the same name, "mybikes," and the changes will be applied.'''
 
 while True:
    load_all = input("\nWould you like to load any file? Yes/No ").strip().lower()
@@ -136,7 +166,7 @@ while True:
        print("\033[31m Option not valid \033[0m")
 
 #create options using tabulate
-menu_items_inavailable = [
+menu_items_unavailable = [
     ["\033[31m1. Display all available bikes\033[0m"],
     ["\033[32m2. Add new bike\033[0m"],
     ["\033[31m3. Rent a bike\033[0m"],
@@ -157,15 +187,15 @@ menu = [
 
 while True:
    if not all_bikes:
-       print(tb(menu_items_inavailable, tablefmt="grid", colalign=("left",)))
-       option = int(input("Choose a option: "))
-       while option in [1,3,4,5,6]:
-         print("\033[31mOption not valid, choose another one \033[0m")
-         option = int(input("Choose a option: "))    
+    print(tb(menu_items_unavailable, tablefmt="grid", colalign=("left",)))
+    option = is_valid_option()
+    while option in [1, 3, 4, 5, 6]:
+        print("\033[31mOption not valid, choose another one\033[0m")
+        option = is_valid_option()
    else:
-       print(tb(menu, tablefmt="grid", colalign=("left",)))
-       option = int(input("Choose a option: "))
-
+      print(tb(menu, tablefmt="grid", colalign=("left",)))
+      option = is_valid_option()
+          
 #display all bikes if there is bikes added
    if option == 1:
       bike_rows = [bikes.get_row() for bikes in all_bikes]
@@ -190,6 +220,7 @@ while True:
                print("erro type")
                bike_models = input("what is the model? ")
 
+            #bikes_type = is_valid_type()
             bikes_type = input("what is the type? ")
             while not is_valid_type(bikes_type):
                print("it's still wrong ")
@@ -222,7 +253,7 @@ while True:
          headers = ["ID", "Model", "Type", "Available", "price"]
          print(tb(bike_rows, headers=headers, tablefmt="grid"))
          print("\n")
-         t.sleep(2)
+         t.sleep(1)
 
       bike_rent = input("What bike would you like to rent?: type ID ")
       while not is_valid_id(bike_rent):
@@ -234,18 +265,21 @@ while True:
             if bikes.bike_id == bike_rent:
                print(bikes.get_details())
                if bikes.available == "Yes":
-                  other_bike = input("rent another one? ").strip().lower
+                  other_bike = input("Would you like to change the selected bike? Y/N ").strip().lower
                   if other_bike in ["y","yes"]:
                      bike_rent = int(input("What bike would you like to rent?: "))
 
-                  rent_time = int(input("How many days would you like to rent it?: "))
-                  rent_days(rent_time)
-                  change_day = input("Would you like to change the day to bring it back? Y/N ").strip().lower()
+                  rent_time = is_valid_int("How many days would you like to rent it?: ")
+                 
+                  
+                  change_day = input("Would you like to change the day to return it back? Y/N ").strip().lower()
                   while change_day not in ["no", "n"]:
                         rent_time = int(input("How many days would you like to rent it?: "))
                         rent_days(rent_time)
                         change_day = input("Would you like to change the day? Y/N ").strip().lower()
                   start_time, end_time = rent_days(rent_time)
+                  price_rent = ((end_time - start_time).days * (bikes.price))
+                  print(f"The total price is: \033[32m{price_rent:.1f}€ \033[0m")
 
                   be_sure = input("Are you sure you want to rent this Bike? Y/N ")
                   if be_sure in ["y","yes"]:                     
@@ -257,8 +291,10 @@ while True:
                      all_bikes_rent.append(rent)
                      all_bikes[bike_rent - 1].available = ("No")
                      print("\033[32mThanks for rent it with us\033[0m")
+                     t.sleep(1)
                else:
                    print("\033[31m It is not available \033[0m")
+                   t.sleep(1)
          break
 
 #return a bike
@@ -280,7 +316,7 @@ while True:
                         #print(total, days_rented)
                         if total > 0:
                            pay = days_rented * price
-                           print(f"You are late, you have to pay 10% per day delayed, total of days you are with bike: {days_rented}, you have to pay {pay * 0.10}€ of fine")
+                           print(f"You are late, you have to pay 10% per day delayed, total of days you are with bike: {days_rented}, you have to pay {pay * 0.10:.2f}€ of fine")
                            print(f"The total you have to pay is: {price * days_rented + pay * 0.10}€\n")
                         else:
                            print(f"\nyou return the bike {-total} days ealier ")
@@ -338,7 +374,7 @@ while True:
 
 #save and exit
 #name the file for exemple "allbikes" if you want 
-   else:
+   elif option == 7:
       if not all_bikes:
          break
       else:
@@ -350,3 +386,6 @@ while True:
             is_rental_save(save_rental, all_bikes_rent)
             break
       break
+
+   else:
+       continue
