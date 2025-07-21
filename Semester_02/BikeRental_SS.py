@@ -54,36 +54,47 @@ class rental:
 
 #functions to check if information typed by user is correct and to save and load file
 
-def is_valid_name(name_srt):
-    return bool(re.match(r'[a-zA-Z ]{2,50}$',name_srt))
+def is_valid_name(name_srt= "Enter your name: "):
+    while True:
+      name = input(name_srt).strip().lower()
+      if not bool(re.match(r'[a-zA-Z ]{2,50}$',name)):
+          print("it is not valid")
+          continue
+      return name
 
-def is_valid_id(id_srt):
-    return bool (re.match(r'[0-9]{1,5}', id_srt))
+def is_valid_id(id_srt=""):
+    while True:
+        id = input(id_srt)
+        if not bool (re.match(r'[0-9]{1,5}', id)):
+            print("\033[31mID is not valid.\033[0m")
+            continue
+        return int(id)
 
-def is_valid_model(model):
-    return bool(re.match(r"[A-Za-z0-9\- ]{2,30}", model))
+def is_valid_model(model="What is the model: "):
+    while True:
+         bikes_model = input(model)
+         if not bool(re.match(r"[A-Za-z0-9\- ]{2,30}", bikes_model)):
+            print("Type a valid model: ")
+            continue
+         return bikes_model
 
-def is_valid_type(type_srt):
-    return bool(re.match(r'[a-zA-Z0-9\- ]', type_srt))
-
-"""def is_valid_type(type_srt="what is the type? "):
+def is_valid_type(type_srt="what is the type? "):
       while True:
          bikes_type = input(type_srt)
          if not bool(re.match(r'[a-zA-Z0-9\- ]', bikes_type)):
              print("type a valid type: ")
              continue         
-         return bikes_type"""
-
-def is_valid_rent(rent_srt):
-    return bool(rent_srt)
-
-def is_available(available_srt):
-    if available_srt.lower() in ["yes", "y"]:
-        return "Yes"
-    elif available_srt.lower() in ["no","n"]:
-        return "No"
-    else:
-         return print("\033[31mInvalid option, Type Yes or No.\033[0m")
+         return bikes_type
+    
+def is_available(available_srt="Is it already available to be rented? Yes or No "):
+    while True:
+      bike_available = input(available_srt).strip().lower()
+      if bike_available in ["yes", "y"]:
+         return "Yes"
+      elif bike_available in ["no","n"]:
+         return "No"
+      else:
+            return print("\033[31mInvalid option, Type Yes or No.\033[0m")
     
 def is_valid_option(prompt_srt="Choose an option (1-7): "):
     while True:
@@ -105,7 +116,6 @@ def is_valid_int(int_srt=""):
             continue 
         return int(value_int)
 
-
 def rent_days(days_srt):
    start_time = dt.datetime.now()
    end_time = start_time + dt.timedelta(days=days_srt)
@@ -116,8 +126,8 @@ def is_bike_save(file_name_srt, content_srt):
    with open(file_name_srt, "w", encoding="utf-8") as bike_list_saved:
       json.dump([bikes.save_bikes_items() for bikes in content_srt], bike_list_saved, ensure_ascii=False, indent=4)
 
-def is_rental_save(file_name_srt,content_srt):
-    with open (file_name_srt,"w", encoding = "utf-8") as rental_list_saved:
+def is_rental_save(file_name_r_srt,content_srt):
+    with open (file_name_r_srt,"w", encoding="utf-8") as rental_list_saved:
       json.dump([rental.save_rental_items() for rental in content_srt], rental_list_saved, ensure_ascii=False, indent=4)
       print("Saved")
 
@@ -157,13 +167,13 @@ while True:
          all_bikes_rent = load_rental(fileload_rental)
          break
       else:
-         print("\033[31m File not found or invalid.\033[0m")
+         print("\033[31mFile not found or invalid.\033[0m")
    elif load_all in ["n","no"]:
        all_bikes = []
        all_bikes_rent = []
        break
    else:
-       print("\033[31m Option not valid \033[0m")
+       print("\033[31mOption not valid \033[0m")
 
 #create options using tabulate
 menu_items_unavailable = [
@@ -196,7 +206,7 @@ while True:
       print(tb(menu, tablefmt="grid", colalign=("left",)))
       option = is_valid_option()
           
-#display all bikes if there is bikes added
+#display all bikes if there is bikes available
    if option == 1:
       bike_rows = [bikes.get_row() for bikes in all_bikes]
       headers = ["ID", "Model", "Type", "Available", "Daily Price"]
@@ -210,27 +220,15 @@ while True:
             if not all_bikes: 
                last_id = 1
             else:
-                print(all_bikes)
                 existent_ids = {bike.bike_id for bike in all_bikes}
                 last_id = sorted(existent_ids)[-1]
-                last_id = last_id + 1       
+                last_id = last_id + 1   
 
-            bike_models = input("\nwhat is the model? ")
-            while not is_valid_model(bike_models):
-               print("erro type")
-               bike_models = input("what is the model? ")
+            bike_models = is_valid_model()    
+            bikes_type = is_valid_type()
+            bike_avai = is_available()
 
-            #bikes_type = is_valid_type()
-            bikes_type = input("what is the type? ")
-            while not is_valid_type(bikes_type):
-               print("it's still wrong ")
-               bikes_type = input("what is the type? ")
-
-            bike_avai = input("Is it already available now? Yes or No ").strip().lower()
-            while not is_available(bike_avai):
-                bike_avai = input("Is it already available now? Yes or No ").strip().lower()
-            bike_avai = is_available(bike_avai)
-
+            #the price of bike it is random between 1 and 5 euros
             bike_price = random.randint(1, 5)
 
             bike_ids = last_id
@@ -243,9 +241,7 @@ while True:
 
 #rent a bike
    elif option == 3:
-      customer_name = input("enter your name: ")
-      while not is_valid_name(customer_name): 
-         customer_name = input("enter your name: ")
+      customer_name = is_valid_name()
 
       see_list = input("see the list of available bikes? Y/N ").strip().lower()
       if see_list in ["y", "yes"]:
@@ -255,19 +251,16 @@ while True:
          print("\n")
          t.sleep(1)
 
-      bike_rent = input("What bike would you like to rent?: type ID ")
-      while not is_valid_id(bike_rent):
-          bike_rent = input("What bike would you like to rent?: type ID ") 
-      bike_rent = int(bike_rent)
+      bike_rent = is_valid_id("What bike would you like to rent?: type ID ")
 
       while True:
          for bikes in all_bikes:
             if bikes.bike_id == bike_rent:
                print(bikes.get_details())
                if bikes.available == "Yes":
-                  other_bike = input("Would you like to change the selected bike? Y/N ").strip().lower
+                  other_bike = input("Would you like to change the selected bike? Y/N ").strip().lower()
                   if other_bike in ["y","yes"]:
-                     bike_rent = int(input("What bike would you like to rent?: "))
+                     bike_rent = is_valid_id("What bike would you like to rent?: type ID ")
 
                   rent_time = is_valid_int("How many days would you like to rent it?: ")
                  
@@ -282,13 +275,10 @@ while True:
                   print(f"The total price is: \033[32m{price_rent:.1f}€ \033[0m")
 
                   be_sure = input("Are you sure you want to rent this Bike? Y/N ")
-                  if be_sure in ["y","yes"]:                     
-                     existent_ids = {bike.bike_id for bike in all_bikes}
-                     last_id = sorted(existent_ids)[-1]
-                     last_id = last_id + 1
-
-                     rent = rental(customer_name, last_id, start_time, end_time)
+                  if be_sure in ["y","yes"]:             
+                     rent = rental(customer_name, bike_rent, start_time, end_time)
                      all_bikes_rent.append(rent)
+                     
                      all_bikes[bike_rent - 1].available = ("No")
                      print("\033[32mThanks for rent it with us\033[0m")
                      t.sleep(1)
@@ -300,76 +290,93 @@ while True:
 #return a bike
    elif option == 4:
 
-      bikeid = int(input("Type the ID of the bike you want to return: "))
-      for bikes in all_bikes:
-         if bikes.bike_id == bikeid:
-            print(bikes.get_details())
-            price = bikes.price
-            if bikes.available == "No":    
-               for rental in all_bikes_rent:
-                     if rental.bike_id == bikeid:
-                        end_time = rental.end_time
-                        start_time = rental.start_time
-                        total = (dt.datetime.now() - end_time).days
-                        days_rented = (dt.datetime.now() - start_time).days
-                        print(f"You rented it for {(end_time - start_time).days} days")
-                        #print(total, days_rented)
-                        if total > 0:
-                           pay = days_rented * price
-                           print(f"You are late, you have to pay 10% per day delayed, total of days you are with bike: {days_rented}, you have to pay {pay * 0.10:.2f}€ of fine")
-                           print(f"The total you have to pay is: {price * days_rented + pay * 0.10}€\n")
-                        else:
-                           print(f"\nyou return the bike {-total} days ealier ")
-                           print(f"you have to pay: {price * days_rented}€\n")
-                        
-               return_it = input("\033[31mWould you like to return this bike? Yes/No \033[0m \n").strip().lower()
-               if return_it in ["y","yes"]:
-                     all_bikes[bikeid - 1].available = ("Yes")
-                     print("Thanks bike returned it")
-            else:
-               print("\033[31mYou cannot return it because it is already available\033[0m")
+      cus_name = is_valid_name()
+      id_r = [rental.bike_id for rental in all_bikes_rent if rental.customer_name == cus_name]
+      bike_rows = [bikes.get_row() for bikes in all_bikes if bikes.bike_id in id_r]
+      headers = ["ID", "Model", "Type", "Available", "price"]
+      if id_r == []:
+         print("\033[31m It is not available \033[0m")
+         t.sleep(1)
+      else:
+         print(tb(bike_rows, headers=headers, tablefmt="grid"))
+         t.sleep(1)
+         bikeid = int(input("Type the ID of the bike you want to return: "))
+
+         for bikes in all_bikes:
+            if bikes.bike_id == bikeid:
+               
+               price = bikes.price
+               if bikes.available == "No":               
+                     print(bikes.get_details())  
+                     for rental in all_bikes_rent:
+                          if rental.bike_id == bikeid and rental.customer_name == cus_name:
+                              end_time = rental.end_time
+                              start_time = rental.start_time
+                              total = (dt.datetime.now() - end_time).days
+                              days_rented = (dt.datetime.now() - start_time).days
+                              print(f"You rented it for {(end_time - start_time).days} days")
+                              if total > 0:
+                                 pay = days_rented * price
+                                 print(f"You are late, you have to pay 10% per day delayed, total of days you are with bike: {days_rented}, you have to pay {pay * 0.10:.2f}€ of fine")
+                                 print(f"The total you have to pay is: {price * days_rented + pay * 0.10}€\n")
+                              else:
+                                 print(f"\nyou return the bike {-total} days ealier ")
+                                 print(f"you have to pay: {price * days_rented}€\n")
+                              
+                              return_it = input("\033[31mWould you like to return this bike? Y/N \033[0m \n").strip().lower()
+                              if return_it in ["y","yes"]:
+                                    all_bikes[bikeid - 1].available = ("Yes")
+                                    print("Thanks bike returned it")
+                                    break
+                              else:
+                                 break
+                          else:
+                              print("\033[31mYou can return only bike that you rented.\033[0m")
+                              break
+               else:
+                  print("\033[31mYou cannot return it because it is already available\033[0m")
+                  continue
 
 #search a bike by id or type
    elif option == 5:
-      id_op = input("Would you like to search by ID or Type? ").strip().lower()
-      if id_op == "id":
-         bikeid = int(input("What is the ID?: "))
-         for bikes in all_bikes:
-            if bikes.bike_id == bikeid:
-               print(bikes.get_details())
-               price = bikes.price 
-      elif id_op == "type":
-         bikeid = str(input("What is the Type: "))
-         bike_rows = [bikes.get_row() for bikes in all_bikes if bikes.type == bikeid]
-         headers = ["ID", "Model", "Type", "Available", "price"]
-         print(tb(bike_rows, headers=headers, tablefmt="grid"))
+      id_ty = input("Would you like to search by ID or Type? ").strip().lower()
+      if id_ty == "id":
+         bikeid = is_valid_id("What is the bike ID?: ")
+         bike_rows = [bikes.get_row() for bikes in all_bikes if bikes.bike_id == bikeid]
+         if bike_rows:  
+            headers = ["ID", "Model", "Type", "Available", "price"]
+            print(tb(bike_rows, headers=headers, tablefmt="grid"))
+         else:
+             print("\033[31mNo bikes found with that ID.\033[0m")
          t.sleep(1)
+     
+
+      elif id_ty == "type":
+         bikeid = str(input("What is the Type: ")).strip().lower()
+         bike_rows = [bikes.get_row() for bikes in all_bikes if bikes.type == bikeid]
+         if bike_rows:  
+            headers = ["ID", "Model", "Type", "Available", "price"]
+            print(tb(bike_rows, headers=headers, tablefmt="grid"))
+         else:
+             print("\033[31mNo bikes found with that type.\033[0m")
+         t.sleep(1)
+      else:
+          print("Please enter 'ID' or 'Type'.")
 
 # if you want to update an existent bike
    elif option == 6:
-      bikeid = int(input("Type the ID of the bike you want to update: "))
+      bikeid = is_valid_id("Type the ID of the bike you want to update: ")
       for bikes in all_bikes:
          if bikes.bike_id == bikeid:
             print(bikes.get_details())
 
-      bike_models = input("\nwhat is the model? ")
-      while not is_valid_model(bike_models):
-         print("erro type")
-         bike_models = input("what is the model? ")
+      bike_models = is_valid_model()    
+      bikes_type = is_valid_type()
+      bike_avai = is_available()
+
       all_bikes[bikeid - 1].model = bike_models
-
-      bikes_type = input("what is the type? ")
-      while not is_valid_type(bikes_type):
-         print("it's still wrong ")
-         bikes_type = input("what is the type? ")
       all_bikes[bikeid - 1].type = bikes_type
-
-      bike_avai = input("Is it already available now? Yes or No ").strip().lower()
-      while not is_available(bike_avai):
-            bike_avai = input("Is it already available now? Yes or No ").strip().lower()
-      bike_avai = is_available(bike_avai)
       all_bikes[bikeid - 1].available = bike_avai
-
       all_bikes[bikeid - 1].price = random.randint(1,5)
 
 #save and exit
